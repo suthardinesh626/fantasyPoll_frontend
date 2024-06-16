@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // API endpoint for user operations
-const API = 'http://localhost:8000/api/v1/users';
+const API = 'https://handsome-enjoyment-production.up.railway.app/api/v1/users';
 
 // Helper function to get the token
 

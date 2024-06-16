@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API = 'http://localhost:8000/api/v1/poll';
+const API = 'https://handsome-enjoyment-production.up.railway.app/api/v1/poll';
 
 // Helper function to get the token
 const getToken = () => localStorage.getItem('accessToken');
@@ -34,11 +34,13 @@ const fetchPolls = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const token = getToken();
+      console.log("Token being used:", token);
       const response = await axios.get(`${API}/allpoll`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
+      console.log(response)
       return response.data.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

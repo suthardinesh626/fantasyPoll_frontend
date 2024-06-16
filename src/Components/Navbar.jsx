@@ -15,9 +15,9 @@ const Navbar = () => {
                 <Link to="/dashboard">FantasyPoll</Link>
             </div>
             <div className="flex items-center">
-                {isAuthenticated && user && user.avatar ? (
+                {isAuthenticated && user && user.user.avatar ? (
                     <img
-                        src={`${user.avatar}`}
+                        src={`${user.user.avatar}`}
                         alt="Profile"
                         className="w-10 h-10 rounded-full"
                     />
@@ -28,7 +28,7 @@ const Navbar = () => {
                 )}
                 {/* Display user's full name if authenticated */}
                 {isAuthenticated && user && (
-                    <p className="ml-2 font-semibold">{user.fullName} </p>
+                    <p className="ml-2 font-semibold">{user.user.fullName} </p>
                 )}
                 <div className='border-2 border-black rounded-md p-1 mx-2'>
                     <Logout />
