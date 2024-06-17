@@ -44,12 +44,12 @@ const Register = () => {
     }
 
     try {
-      console.log('This is the form data from component before dispatch:', formDataObj);
+      // console.log('This is the form data from component before dispatch:', formDataObj);
       await dispatch(registerUser(formDataObj)).unwrap();
-      navigate('/login');
-      console.log('This is the form data from component after dispatch:', formDataObj);
+      // navigate('/login');
+      // console.log('This is the form data from component after dispatch:', formDataObj);
     } catch (err) {
-      console.error('Registration failed:', err);
+      // console.error('Registration failed:', err);
     }
   };
 

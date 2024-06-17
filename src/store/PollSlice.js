@@ -12,14 +12,14 @@ const createPoll = createAsyncThunk(
   async ({ title, summary, options }, { rejectWithValue }) => {
     try {
       const token = getToken();
-      console.log("Token being used:", token);
+      // console.log("Token being used:", token);
       const response = await axios.post(`${API}/createpoll`, { title, summary, options }, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-      console.log('has really token used.')
-      console.log(response)
+      // console.log('has really token used.')
+      // console.log(response)
       return response.data;
     } catch (error) {
       console.error("Create Poll Error:", error.response ? error.response.data : error.message);
@@ -40,7 +40,7 @@ const fetchPolls = createAsyncThunk(
           Authorization: `Bearer ${token}`
         }
       });
-      console.log(response)
+      // console.log(response)
       return response.data.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

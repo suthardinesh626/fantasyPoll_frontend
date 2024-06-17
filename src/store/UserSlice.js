@@ -49,6 +49,7 @@ const registerUser = createAsyncThunk(
       });
       const userData = response.data.data;
       localStorage.setItem('user', JSON.stringify(userData));
+      
       console.log(response)
       return userData;
     } catch (error) {
