@@ -34,7 +34,7 @@ const fetchPolls = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const token = getToken();
-      console.log("Token being used:", token);
+      // console.log("Token being used:", token);
       const response = await axios.get(`${API}/allpoll`, {
         headers: {
           Authorization: `Bearer ${token}`

@@ -27,12 +27,15 @@ const PollsList = () => {
   if (error) return <p className="text-red-500">Error: {error}</p>;
 
   return (
-    <div className='flex flex-row flex-wrap m-4  rounded-lg bg-gray-800 text-white'>
+    <div className='flex flex-row flex-wrap justify-center m-4 rounded-lg bg-gray-800 text-white'>
       {Array.isArray(polls) && polls.length > 0 ? (
         polls.map((poll) => {
           const { options: optionsWithPercentage, totalVotes } = VotePercentage(poll.options || []);
           return (
-            <div className='border-2 m-3 p-3 rounded-lg bg-gray-700' key={poll._id}>
+            <div
+              className='border-2 m-3 p-3 rounded-lg bg-gray-700 w-full sm:w-1/2 md:w-1/3 lg:w-1/5'
+              key={poll._id}
+            >
               <h2 className='font-bold'>{poll.title}</h2>
               <label className='font-semibold underline'>Summary:</label>
               <p>{poll.summary}</p>
