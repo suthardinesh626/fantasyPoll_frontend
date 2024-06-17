@@ -3,50 +3,47 @@ import { Link, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
 import { loginUser } from "../store/UserSlice"
 
-
 const Login = () => {
-
     // state
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [email, setEmail] = useState('')
 
     // redux state
-    const { loading, error } = useSelector((state) => state.user)
+    const { loading, error, isAuthenticated } = useSelector((state) => state.user)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const handleLogin = (e) => {
+
+    const handleLogin = async (e) => {
         e.preventDefault();
-        let userCrendetail = {
+        let userCredentials = {
             email, username, password
         }
-        dispatch(loginUser(userCrendetail))
-            .then(
-                navigate('/dashboard')
-            )
-            .catch(
-                new Error("user not exist", Error)
-            )
-
-
+        try {
+            await dispatch(loginUser(userCredentials)).unwrap();
+            if (isAuthenticated) {
+                navigate('/dashboard');
+            }
+        } catch (err) {
+            console.error("Login failed: ", err);
+        }
     }
-
 
     return (
         <>
-            <form onSubmit={handleLogin}  >
-                <label htmlFor="">Email</label>
-                <input type="text" placeholder="Username" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <label htmlFor="">Username</label>
-                <input type="text" placeholder="Email" value={username} onChange={(e) => setUsername(e.target.value)} />
-                <label htmlFor="">Password</label>
-                <input type="password" placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                <button type="submit"   >
-                    {loading ? "Lading.." : "Login"}
+            <form onSubmit={handleLogin}>
+                <label htmlFor="email">Email</label>
+                <input type="text" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <label htmlFor="username">Username</label>
+                <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                <label htmlFor="password">Password</label>
+                <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <button type="submit">
+                    {loading ? "Loading.." : "Login"}
                 </button>
-                {error && (<p>invalid credentials {error} </p>)}
-                <Link to='/' >Don't have account, Regsiter</Link>
+                {error && (<p>Invalid credentials: {error}</p>)}
+                <Link to='/'>Don't have an account? Register</Link>
             </form>
         </>
     )

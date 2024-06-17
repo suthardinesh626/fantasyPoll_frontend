@@ -28,6 +28,7 @@ const Register = () => {
         [e.target.name]: e.target.value,
       });
     }
+    console.log(`Updated ${e.target.name}:`, e.target.value || e.target.files[0]);
   };
 
   const handleSubmit = async (e) => {
@@ -37,9 +38,16 @@ const Register = () => {
       formDataObj.append(key, formData[key]);
     }
 
+    // Check the contents of the FormData object
+    for (let pair of formDataObj.entries()) {
+      console.log(pair[0] + ': ' + pair[1]);
+    }
+
     try {
+      console.log('This is the form data from component before dispatch:', formDataObj);
       await dispatch(registerUser(formDataObj)).unwrap();
       navigate('/login');
+      console.log('This is the form data from component after dispatch:', formDataObj);
     } catch (err) {
       console.error('Registration failed:', err);
     }
@@ -57,7 +65,7 @@ const Register = () => {
             name="fullName"
             value={formData.fullName}
             onChange={handleChange}
-            placeholder='fullname'
+            placeholder="Full Name"
             required
           />
         </div>
@@ -68,7 +76,7 @@ const Register = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            placeholder='email'
+            placeholder="Email"
             required
           />
         </div>
@@ -79,8 +87,7 @@ const Register = () => {
             name="password"
             value={formData.password}
             onChange={handleChange}
-            placeholder='password'
-
+            placeholder="Password"
             required
           />
         </div>
@@ -91,8 +98,7 @@ const Register = () => {
             name="username"
             value={formData.username}
             onChange={handleChange}
-            placeholder='Username'
-
+            placeholder="Username"
             required
           />
         </div>

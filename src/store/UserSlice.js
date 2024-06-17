@@ -2,9 +2,10 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // API endpoint for user operations
-const API = 'https://handsome-enjoyment-production.up.railway.app/api/v1/users';
+const API = 'https://pollbackend-production-ec35.up.railway.app/api/v1/users';
 
 // Helper function to get the token
+
 
 
 // Login user
@@ -15,8 +16,8 @@ const loginUser = createAsyncThunk(
       const response = await axios.post(`${API}/login`, userCredentials);
       const userData = response.data.data;
       localStorage.setItem('user', JSON.stringify(userData));
-      localStorage.setItem('refreshToken', userData.accessToken);
-      localStorage.setItem('accessToken', userData.refreshToken);
+      localStorage.setItem('accessToken', userData.accessToken);
+      localStorage.setItem('refreshToken', userData.refreshToken);
       return userData;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -40,6 +41,7 @@ const registerUser = createAsyncThunk(
   'user/registerUser',
   async (userDetails, { rejectWithValue }) => {
     try {
+      console.log('Here are user data',userDetails)
       const response = await axios.post(`${API}/register`, userDetails, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -47,7 +49,7 @@ const registerUser = createAsyncThunk(
       });
       const userData = response.data.data;
       localStorage.setItem('user', JSON.stringify(userData));
-
+      console.log(response)
       return userData;
     } catch (error) {
       return rejectWithValue(error.response.data);

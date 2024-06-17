@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API = 'https://handsome-enjoyment-production.up.railway.app/api/v1/poll';
+const API = 'https://pollbackend-production-ec35.up.railway.app/api/v1/poll';
 
 // Helper function to get the token
 const getToken = () => localStorage.getItem('accessToken');
