@@ -6,6 +6,7 @@ const CreatePoll = () => {
   const [title, setTitle] = useState('');
   const [summary, setSummary] = useState('');
   const [options, setOptions] = useState(['', '', '', '']);
+  const [showForm, setShowForm] = useState(false); // State to toggle form visibility
   const dispatch = useDispatch();
 
   const handleOptionChange = (index, value) => {
@@ -20,54 +21,68 @@ const CreatePoll = () => {
     if (title.trim() && summary.trim() && filteredOptions.length > 0) {
       const formattedOptions = filteredOptions.map(option => ({ optiontext: option }));
       dispatch(createPoll({ title, summary, options: formattedOptions }));
+      // Reset form fields after submission
+      setTitle('');
+      setSummary('');
+      setOptions(['', '', '', '']);
+      // Hide the form after successful submission
+      setShowForm(false);
     } else {
       alert('Please fill in all fields and provide at least one option.');
     }
   };
 
+  const toggleForm = () => {
+    setShowForm(!showForm);
+  };
+
   return (
-    <div className='w-full md:w-3/5 lg:w-2/5 xl:w-1/4 m-2 p-4 border-2 rounded-lg'>
-    <form className='w-full' onSubmit={handleSubmit}>
-      <div className='flex flex-col md:flex-row md:items-center justify-between mb-4'>
-        <label className='font-semibold md:mr-2' htmlFor="title">Title:</label>
-        <input
-          className='w-full md:flex-1 px-2 py-1 rounded-md my-1 outline-none focus:ring-2 focus:ring-blue-500'
-          id="title"
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder='Title'
-          required
-        />
-      </div>
-      <div className='flex flex-col mb-4'>
-        <label className='font-semibold mb-1' htmlFor="summary">Summary:</label>
-        <input
-          className='w-full px-2 py-1 rounded-md outline-none focus:ring-2 focus:ring-blue-500'
-          id="summary"
-          type="text"
-          value={summary}
-          onChange={(e) => setSummary(e.target.value)}
-          placeholder='Summary'
-          required
-        />
-      </div>
-      <div className='flex flex-col mb-4'>
-        <label className='font-semibold mb-1'>Options:</label>
-        {options.map((option, index) => (
-          <input
-            className='w-full px-2 py-1 rounded-md my-1 outline-none focus:ring-2 focus:ring-blue-500'
-            key={index}
-            type="text"
-            value={option}
-            onChange={(e) => handleOptionChange(index, e.target.value)}
-            placeholder='Option'
-          />
-        ))}
-      </div>
-      <button className="text-sm border-2 m-1 p-2 font-bold rounded-lg bg-blue-500 text-white hover:bg-blue-600" type="submit">Create Poll</button>
-    </form>
-  </div>
+    <div className='max-w-lg w-full p-4 sm:p-6  rounded-lg  sm:m-6 lg:m-8 bg-gray-800 text-white'>
+      {showForm ? (
+        <form className='space-y-4' onSubmit={handleSubmit}>
+          <div className='flex flex-col'>
+            <label className='font-semibold' htmlFor="title">Title:</label>
+            <input
+              className='w-full px-3 py-2 border rounded-md outline-none bg-gray-700 text-white focus:ring-2 focus:ring-blue-500'
+              id="title"
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder='Title'
+              required
+            />
+          </div>
+          <div className='flex flex-col'>
+            <label className='font-semibold' htmlFor="summary">Summary:</label>
+            <input
+              className='w-full px-3 py-2 border rounded-md outline-none bg-gray-700 text-white focus:ring-2 focus:ring-blue-500'
+              id="summary"
+              type="text"
+              value={summary}
+              onChange={(e) => setSummary(e.target.value)}
+              placeholder='Summary'
+              required
+            />
+          </div>
+          <div className='flex flex-col'>
+            <label className='font-semibold'>Options:</label>
+            {options.map((option, index) => (
+              <input
+                key={index}
+                className='w-full my-3 px-3 py-2 border rounded-md outline-none bg-gray-700 text-white focus:ring-2 focus:ring-blue-500'
+                type="text"
+                value={option}
+                onChange={(e) => handleOptionChange(index, e.target.value)}
+                placeholder='Option'
+              />
+            ))}
+          </div>
+          <button className="w-full bg-blue-500 text-white py-2 rounded-md font-bold hover:bg-blue-600 focus:outline-none" type="submit">Create Poll</button>
+        </form>
+      ) : (
+        <button className="w-full bg-blue-500 text-white py-2 rounded-md font-bold hover:bg-blue-600 focus:outline-none" onClick={toggleForm}>Create Your Own Poll</button>
+      )}
+    </div>
   );
 };
 

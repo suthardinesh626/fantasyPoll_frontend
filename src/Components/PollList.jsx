@@ -23,30 +23,35 @@ const PollsList = () => {
     return new Date(dateString).toLocaleDateString('en-US', options);
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (loading) return <p className="text-white">Loading...</p>;
+  if (error) return <p className="text-red-500">Error: {error}</p>;
 
   return (
-    <div className='flex flex-row flex-wrap m-4 border-2 rounded-lg'>
+    <div className='flex flex-row flex-wrap m-4  rounded-lg bg-gray-800 text-white'>
       {Array.isArray(polls) && polls.length > 0 ? (
         polls.map((poll) => {
           const { options: optionsWithPercentage, totalVotes } = VotePercentage(poll.options || []);
           return (
-            <div className='border-2 m-3 p-3 rounded-lg' key={poll._id}>
+            <div className='border-2 m-3 p-3 rounded-lg bg-gray-700' key={poll._id}>
               <h2 className='font-bold'>{poll.title}</h2>
-              <label className='font-semibold underline' >Summary:</label>
+              <label className='font-semibold underline'>Summary:</label>
               <p>{poll.summary}</p>
               <p>Published: {formatDate(poll.createdAt)}</p>
-              <div className='rounded-lg border-2 p-2'>
+              <div className='rounded-lg p-2'>
                 {optionsWithPercentage.map((option) => (
                   <div
                     key={option._id}
-                    className='flex flex-row justify-between my-2 border-2 rounded-md p-1 font-medium'
+                    className='my-2 p-1 font-medium'
                     onClick={() => handleVote(poll._id, option._id)}
                     style={{ cursor: 'pointer' }}
                   >
-                    <p>{option.optiontext}</p>
-                    <p>({option.percentage}%)</p>
+                    <div className="flex justify-between mb-1">
+                      <p>{option.optiontext}</p>
+                      <p>({option.percentage}%)</p>
+                    </div>
+                    <div className="w-full bg-gray-600 rounded-full h-2.5">
+                      <div className="bg-blue-500 h-2.5 rounded-full" style={{ width: `${option.percentage}%` }}></div>
+                    </div>
                   </div>
                 ))}
                 <div className='flex justify-end'>

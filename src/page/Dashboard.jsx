@@ -10,9 +10,11 @@ const Dashboard = () => {
 
     return (
         <>
-            <Navbar />
-            <CreatePoll />
-            <PollList />
+            <div className="bg-gray-800 text-white" >
+                <Navbar />
+                <CreatePoll />
+                <PollList />
+            </div>
         </>
     )
 }

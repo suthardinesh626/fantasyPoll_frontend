@@ -6,7 +6,7 @@ import Dashboard from './page/Dashboard'
 
 const App = () => {
     return (
-        <div>
+        <div className='bg-gray-800 '>
             <Router>
                 <Routes>
                     <Route exact path='/' element={<Register />} />
