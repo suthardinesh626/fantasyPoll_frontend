@@ -86,6 +86,10 @@ const Login = () => {
                         <Link to='/' className="text-blue-400 hover:underline">Don't have an account? Register</Link>
                     </p>
                 </form>
+                <p className="text-white">Please login with this credentials: Registration is down!!</p>
+                <p className="text-white">email: dinesh@gmail.com</p>
+                <p className="text-white">username: dinesh</p>
+                <p className="text-white">password: dinesh12</p>
             </div>
         </div>
     );
