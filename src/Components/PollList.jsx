@@ -14,8 +14,10 @@ const PollsList = () => {
   }, [dispatch]);
 
   const handleVote = async (pollId, optionId) => {
-    dispatch(votePoll({ pollId, optionId }));
-    dispatch(fetchPolls());
+    await dispatch(votePoll({ pollId, optionId }));
+    await dispatch(fetchPolls());
+    // setTimeout(() => {
+    // }, 2000);
   };
 
   const formatDate = (dateString) => {

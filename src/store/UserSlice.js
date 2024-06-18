@@ -18,6 +18,7 @@ const loginUser = createAsyncThunk(
       localStorage.setItem('user', JSON.stringify(userData));
       localStorage.setItem('accessToken', userData.accessToken);
       localStorage.setItem('refreshToken', userData.refreshToken);
+      // console.log(userData)
       return userData;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -41,7 +42,8 @@ const registerUser = createAsyncThunk(
   'user/registerUser',
   async (userDetails, { rejectWithValue }) => {
     try {
-      console.log('Here are user data',userDetails)
+
+      console.log('did it reached here/')
       const response = await axios.post(`${API}/register`, userDetails, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -49,8 +51,7 @@ const registerUser = createAsyncThunk(
       });
       const userData = response.data.data;
       localStorage.setItem('user', JSON.stringify(userData));
-      
-      console.log(response)
+      console.log(userData)
       return userData;
     } catch (error) {
       return rejectWithValue(error.response.data);
