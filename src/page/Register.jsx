@@ -50,7 +50,7 @@ const Register = () => {
 
     try {
       await dispatch(registerUser(formDataObj)).unwrap();
-      navigate('/login');
+      navigate('/');
     } catch (err) {
       console.error('Registration failed:', err);
     }

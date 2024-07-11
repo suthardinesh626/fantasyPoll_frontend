@@ -83,7 +83,7 @@ const Login = () => {
                     </button>
                     {error && <p className="text-red-500">Invalid credentials: {error}</p>}
                     <p className="text-center">
-                        <Link to='/' className="text-blue-400 hover:underline">Don't have an account? Register</Link>
+                        <Link to='/register' className="text-blue-400 hover:underline">Don't have an account? Register</Link>
                     </p>
                 </form>
                 <p className="text-white">Please login with this credentials: Registration is down!!</p>

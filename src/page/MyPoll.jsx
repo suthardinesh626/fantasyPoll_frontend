@@ -1,46 +1,42 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserPolls } from '../store/PollSlice';
-import { userDetails } from '../store/UserSlice';
 import Navbar from '../Components/Navbar';
-import { VotePercentage } from '../utils/VotePercentage';
 import Footer from '../Components/Footer';
 import Profile from '../Components/Profile';
+import { VotePercentage } from '../utils/VotePercentage';
 
 const MyPoll = () => {
     const dispatch = useDispatch();
     const { polls, loading, error } = useSelector((state) => state.poll);
-    
 
-    // console.log('This is the user poll', polls);
     useEffect(() => {
         dispatch(fetchUserPolls());
     }, [dispatch]);
-
-
 
     if (loading) {
         return <p>Loading...</p>;
     }
 
-    if (error) {
-        return <p>Error: {error}</p>;
-    }
+    // if (error) {
+    //     return <p>Error: {error}</p>;
+    // }
+
     const formatDate = (dateString) => {
         const options = { year: 'numeric', month: 'short', day: 'numeric' };
         return new Date(dateString).toLocaleDateString('en-US', options);
     };
 
     return (
-        <div className='bg-gray-800 h-full' >
+        <div className='bg-gray-800 h-full'>
             <Navbar />
             <div>
                 <Profile />
             </div>
-            <h1 className='text-3xl font-extrabold text-gray-200  m-4 p-4' >
+            <h1 className='text-3xl font-extrabold text-gray-200 m-4 p-4'>
                 My Polls
             </h1>
-              
+
             <div className='flex flex-row flex-wrap justify-center m-4 rounded-lg bg-gray-800 text-white'>
                 {Array.isArray(polls) && polls.length > 0 ? (
                     polls.map((poll) => {
@@ -51,7 +47,7 @@ const MyPoll = () => {
                                 key={poll._id}
                             >
                                 <h2 className='font-bold'>{poll.title}</h2>
-                                <label className='font-semibold '>Summary:</label>
+                                <label className='font-semibold'>Summary:</label>
                                 <p>{poll.summary}</p>
                                 <p>Polled: {formatDate(poll.createdAt)}</p>
                                 <div className='rounded-lg p-2'>
@@ -78,7 +74,9 @@ const MyPoll = () => {
                         );
                     })
                 ) : (
-                    <p>No polls available</p>
+                    <div className='text-center p-4'>
+                        <p>You have not created any polls, create one to see</p>
+                    </div>
                 )}
             </div>
 

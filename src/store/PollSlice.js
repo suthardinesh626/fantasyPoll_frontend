@@ -94,6 +94,9 @@ const fetchUserPolls = createAsyncThunk(
           Authorization: `Bearer ${token}`
         }
       });
+
+    
+
       return response.data.data;
     } catch (error) {
       return rejectWithValue(error.response ? error.response.data : error.message);
