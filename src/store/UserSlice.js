@@ -3,10 +3,10 @@ import axios from "axios";
 
 // API endpoint for user operations
 const API = 'https://pollbackend-production-ec35.up.railway.app/api/v1/users';
+// const API = 'http://localhost:8000/api/v1/users';
 
 // Helper function to get the token
-
-
+const getToken = () => localStorage.getItem('accessToken');
 
 // Login user
 const loginUser = createAsyncThunk(
@@ -18,7 +18,6 @@ const loginUser = createAsyncThunk(
       localStorage.setItem('user', JSON.stringify(userData));
       localStorage.setItem('accessToken', userData.accessToken);
       localStorage.setItem('refreshToken', userData.refreshToken);
-      // console.log(userData)
       return userData;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -42,8 +41,6 @@ const registerUser = createAsyncThunk(
   'user/registerUser',
   async (userDetails, { rejectWithValue }) => {
     try {
-
-      console.log('did it reached here/')
       const response = await axios.post(`${API}/register`, userDetails, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -51,10 +48,26 @@ const registerUser = createAsyncThunk(
       });
       const userData = response.data.data;
       localStorage.setItem('user', JSON.stringify(userData));
-      console.log(userData)
       return userData;
     } catch (error) {
       return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+// Get user details from local storage
+const userDetails = createAsyncThunk(
+  'user/userDetails',
+  async (_, { rejectWithValue }) => {
+    try {
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (!user) {
+        throw new Error("User not found in local storage");
+      }
+      // console.log(`User: ${JSON.stringify(user.user)}`)
+      return user;
+    } catch (error) {
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -115,9 +128,22 @@ const userSlice = createSlice({
         state.user = null;
         state.isAuthenticated = false;
         state.error = action.payload.message || action.error.message;
+      })
+      .addCase(userDetails.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(userDetails.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        state.error = null;
+      })
+      .addCase(userDetails.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload.message || action.error.message;
       });
   }
 });
 
 export const userReducer = userSlice.reducer;
-export { loginUser, logoutUser, registerUser,  };
+export { loginUser, logoutUser, registerUser, userDetails };

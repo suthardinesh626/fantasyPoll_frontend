@@ -13,11 +13,8 @@ const PollsList = () => {
     dispatch(fetchPolls());
   }, [dispatch]);
 
-  const handleVote = async (pollId, optionId) => {
-    await dispatch(votePoll({ pollId, optionId }));
-    await dispatch(fetchPolls());
-    // setTimeout(() => {
-    // }, 2000);
+  const handleVote = (pollId, optionId) => {
+    dispatch(votePoll({ pollId, optionId }));
   };
 
   const formatDate = (dateString) => {
@@ -26,7 +23,7 @@ const PollsList = () => {
   };
 
   if (loading) return <p className="text-white">Loading...</p>;
-  if (error) return <p className="text-red-500">Error: {error}</p>;
+  // if (error) return <p className="text-red-500">You have alreday voted</p>;
 
   return (
     <div className='flex flex-row flex-wrap justify-center m-4 rounded-lg bg-gray-800 text-white'>
@@ -46,9 +43,8 @@ const PollsList = () => {
                 {optionsWithPercentage.map((option) => (
                   <div
                     key={option._id}
-                    className='my-2 p-1 font-medium'
+                    className='my-2 p-1 font-medium cursor-pointer'
                     onClick={() => handleVote(poll._id, option._id)}
-                    style={{ cursor: 'pointer' }}
                   >
                     <div className="flex justify-between mb-1">
                       <p>{option.optiontext}</p>
